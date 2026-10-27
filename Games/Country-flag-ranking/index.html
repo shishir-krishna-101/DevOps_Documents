@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>Country Flag Ranking - Live</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Setup screen -->
+  <section id="setup-screen" class="screen">
+    <div class="setup-card">
+      <h1>🌍 Country Flag Ranking</h1>
+      <p class="hint">Connect this to your YouTube live stream. Comments with a country name score +1, a subscribe keyword scores +100, and rising video likes add a global bonus.</p>
+
+      <label>YouTube API Key <span class="hint-small">(optional, enables video-like bonuses)</span>
+        <input id="input-api-key" type="text" placeholder="AIza..." autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" />
+      </label>
+
+      <label>Live Video URL or ID
+        <input id="input-video-id" type="text" placeholder="https://youtube.com/watch?v=... or video ID" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" />
+      </label>
+
+      <label>Subscribe keyword(s) <span class="hint-small">(comma separated, case-insensitive)</span>
+        <input id="input-sub-keywords" type="text" value="subscribed, sub" />
+      </label>
+
+      <label>Starting points per country
+        <input id="input-start-points" type="number" value="1000" min="0" />
+      </label>
+
+      <label>Target score <span class="hint-small">(race goal shown on the race bar)</span>
+        <input id="input-target-score" type="number" value="5000" min="1" />
+      </label>
+
+      <div class="setup-actions">
+        <button id="btn-start" class="btn primary">Start Live Board</button>
+        <button id="btn-demo" class="btn secondary">Try Demo Mode</button>
+      </div>
+
+      <p id="setup-error" class="error"></p>
+      <p class="hint-small">An API key is only needed for video-like bonuses. See <code>README.md</code> for setup.</p>
+    </div>
+  </section>
+
+  <!-- Board screen -->
+  <section id="board-screen" class="screen hidden">
+    <header class="board-header">
+      <div class="header-icons">
+        <span class="live-dot"></span>
+        <button id="btn-mute" class="icon-btn" title="Mute sounds">🔊</button>
+        <button id="btn-settings" class="icon-btn" title="Settings">⚙️</button>
+      </div>
+      <div class="title-row">
+        <span id="title-emoji-left" class="title-emoji">🌍</span>
+        <h1 id="neon-title" class="neon-title">WHERE ARE<br />YOU FROM?</h1>
+        <span id="title-emoji-right" class="title-emoji">😎</span>
+      </div>
+      <button id="btn-enable-sound" class="enable-sound-btn hidden">🔊 Tap to enable sound</button>
+      <div id="leader-banner" class="leader-banner">🏆 Waiting for votes…</div>
+      <div id="live-commentary" class="live-commentary">💬 Comment your country to get on the board!</div>
+      <div class="race-target-label">🎯 Target: <span id="target-value">0</span></div>
+      <div id="race-track" class="race-track">
+        <div class="race-finish"></div>
+      </div>
+      <div class="status-row">
+        <span id="status-text">Connecting…</span>
+        <span id="bonus-badge" class="bonus-badge">❤️ Bonus: 0</span>
+      </div>
+      <div id="multiplier-badge" class="multiplier-badge hidden">⚡ 2X POINTS ACTIVE!</div>
+      <div id="ticker" class="ticker"></div>
+    </header>
+
+    <!-- Milestone celebration card: shown briefly when a commenter hits a comment milestone -->
+    <div id="milestone-card" class="milestone-card hidden">
+      <span class="milestone-badge">🌟 <span id="milestone-title">Rising Star</span></span>
+      <div class="milestone-body">
+        <div id="milestone-stars" class="milestone-stars">★★☆☆☆</div>
+        <div class="milestone-level">Level <span id="milestone-level">1</span></div>
+        <div id="milestone-name" class="milestone-name">@user</div>
+        <div id="milestone-message" class="milestone-message">10 Comment Milestone!</div>
+        <div class="milestone-points">🪙 <span id="milestone-points">0</span> Total Points</div>
+      </div>
+    </div>
+
+    <!-- Subscribe celebration card: shown briefly whenever someone subscribes for +100 points -->
+    <div id="subscribe-card" class="subscribe-card hidden">
+      <span class="subscribe-badge">🔔 New Subscriber!</span>
+      <div class="subscribe-body">
+        <img id="subscribe-flag" class="subscribe-flag" src="" alt="" />
+        <div id="subscribe-name" class="subscribe-name">@user</div>
+        <div id="subscribe-country" class="subscribe-country">Country</div>
+        <div class="subscribe-points">+100 Points! 🎉</div>
+      </div>
+    </div>
+
+    <!-- Winner celebration card: shown when a country hits the target score and the board resets -->
+    <div id="winner-card" class="winner-card hidden">
+      <div class="winner-badge">🏆 WE HAVE A WINNER! 🏆</div>
+      <div id="winner-name" class="winner-name">Country</div>
+      <div id="winner-message" class="winner-message">Reached 5000 pts!</div>
+      <div class="winner-sub">🔄 New round starting — everyone back to the start!</div>
+    </div>
+
+    <main id="flag-grid" class="flag-grid"></main>
+  </section>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
